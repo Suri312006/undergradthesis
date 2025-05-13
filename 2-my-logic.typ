@@ -1,4 +1,4 @@
-#import "@preview/illc-mol-thesis:0.2.0": *
+#import "template.typ": *
 
 #mol-chapter("My Logic")
 
