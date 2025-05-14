@@ -73,7 +73,7 @@
 
   #v(40pt)
 
-  #text([*MSc Thesis* _(Afstudeerscriptie)_], size: subtitle-size)
+  #text([*BSc Thesis* ], size: subtitle-size)
 
   written by
 
@@ -87,7 +87,7 @@
 
   #text([*#degree*], size: subtitle-size)
 
-  at the _Universiteit van Amsterdam_.
+  at the _University of California, Santa Cruz_.
 
   #v(50pt)
 

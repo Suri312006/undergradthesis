@@ -2,6 +2,7 @@
 
 #mol-chapter("Introduction")
 
+// talk about the standard unix abstractions
 #lorem(100)
 
 == Background <background>
@@ -16,6 +17,7 @@ We use standard results from @netwok2020. Also relevant for our work is
 #lorem(800)
 
 == Criticism
+
 
 #lorem(150)
 
