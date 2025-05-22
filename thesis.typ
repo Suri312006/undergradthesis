@@ -13,6 +13,7 @@
 
 #mol-titlepage(
   title: "Design, Implementation, and Verification of a Security System for Data-Centric Operating Systems",
+  // title: "Gurt",
   author: "Surendra Jammishetti",
   birth-date: "April 1st, 1980",
   birth-place: "Alice Springs, Australia",
@@ -33,6 +34,10 @@
   lowkey not even sure what to write
   #lorem(150)
 ]
+
+
+
+
 
 
 

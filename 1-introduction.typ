@@ -3,22 +3,55 @@
 #mol-chapter("Introduction")
 
 // talk about the standard unix abstractions
-#lorem(100)
 
-== Background <background>
-
-#lorem(75)
-
-== Literature
-
-We use standard results from @netwok2020. Also relevant for our work is
-@netwok2020, where it was proven that Logic is great.
-
-#lorem(800)
-
-== Criticism
+In mainstream operating systems, security policy is enforced at runtime by a
+omnicient and all powerful kernel.
+// what am i trying to say here.
+It acts as the bodyguard, holding all i/o and data protected unless the
+requesting party has the authorization to access some resource. This tight
+coupling of security policy and access mechanisms works great since the kernel
+is always *there* and the only way to access anything through it. However
+the enforcement of security policy starts getting complicated when we try
+to seperate the access mechanisms from the kernel.
 
 
-#lorem(150)
+== Data Centric Operating Systems
+
+Data centric operating systems are defined by two principles @twizzler:
+
+  + Provide direct, kernel-free, access to data.
+
+  + A notion of pointers that are tied to the data they represent.
+
+Mainstream operating systems fail to classify as data-centric operating
+systems, as they rely on the kernel for all data access, and use virtualized
+pointers per process to represent underlying data. The benefit of this "class"
+of operating systems comes from the low overhead for data manipulation, due to the lack
+of kernel involvement. However our previous security model fails to operate
+here as, by defenition, the kernel cannot be infront of accesses to data. 
+
+
+
+== Capability Based Security Systems
+
+
+// describe capability based security systems
+//
+// how they are different from earlier thingies
+
+Capability based security systems utilize capabilities, a finegrained 
+
+
+
+
+== Our Contributions
+
+// describe the twizzler opensource project
+//
+// my contribution of the existing plan for a security system
+//
+// its implementation
+//
+// and benchmarks
 
 #load-bib(read("refs.bib"))
