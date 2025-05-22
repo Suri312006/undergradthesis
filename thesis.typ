@@ -52,10 +52,9 @@
 
 #outline()
 #include "1-introduction.typ"
-#include "2-design.typ"
-#include "3-implementation.typ"
-#include "4-results.typ"
-#include "5-conclusion.typ"
+#include "2-implementation.typ"
+#include "3-results.typ"
+#include "4-conclusion.typ"
 #pagebreak()
 
 #load-bib(read("refs.bib"), main: true)
