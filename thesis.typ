@@ -3,16 +3,10 @@
 #show: mol-thesis
 
 
-// what am i even supposed to write about maneeee
-//
-// what have i even done
-//
-// am i a fraud
-//
-// 
 
 #mol-titlepage(
-  title: "Design, Implementation, and Verification of a Security System for Data-Centric Operating Systems",
+  // title: "Design, Implementation, and Verification of a Security System for Data-Centric Operating Systems",
+  title: "Twizzler-Security\nA Capability-Based Security System for Twizzler",
   // title: "Gurt",
   author: "Surendra Jammishetti",
   birth-date: "April 1st, 1980",
@@ -52,9 +46,11 @@
 
 #outline()
 #include "1-introduction.typ"
-#include "2-implementation.typ"
-#include "3-results.typ"
-#include "4-conclusion.typ"
+#include "2-keypair.typ"
+#include "3-cap.typ"
+#include "4-secctx.typ"
+#include "5-results.typ"
+#include "6-conclusion.typ"
 #pagebreak()
 
 #load-bib(read("refs.bib"), main: true)
