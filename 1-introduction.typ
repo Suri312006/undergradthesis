@@ -46,6 +46,12 @@ Capability based security systems utilize capabilities, a finegrained
 
 == Our Contributions
 
+In this thesis, I detail the fundamentals of security in the Twizzler
+operating system, and discuss how I implement and refine some of the high
+level ideas described in @twizzler and an early draft of a Twizzler security
+paper. Additionally we evaluate these systems inside kernel and user space,
+with comparsions to micro-benchmarks done with an older version of twizzler.
+
 // describe the twizzler opensource project
 //
 // my contribution of the existing plan for a security system

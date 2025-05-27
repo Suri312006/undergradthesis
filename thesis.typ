@@ -26,8 +26,7 @@
 #mol-abstract[
   whatevea
   lowkey not even sure what to write
-  #lorem(150)
-]
+  ]
 
 
 
