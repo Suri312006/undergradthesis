@@ -35,7 +35,7 @@
 
 
 // we haveee the introduction, talking about how things are normally done in unix
-  // - a critique of why this doesnt work inside of a data-centric operating system, such as twizzler
+// - a critique of why this doesnt work inside of a data-centric operating system, such as twizzler
 //
 // a solution and design spec of what solves the problems from earlier
 //

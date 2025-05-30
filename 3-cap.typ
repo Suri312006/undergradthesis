@@ -9,15 +9,15 @@ protections granted to a process, allowing it to access some object in the ways
 it describes. A Capability is built up of the following fields.
 
 
-```
+```rust
 struct Cap {
-    target: ObjID,      // Object ID this capability grants access to
-    accessor: ObjID,    // Security context ID in which this capability resides
-    prots: Protections, // Specific access rights this capability grants
-    flags: CapFlags,    // Cryptographic configuration for capability validation
-    gates: Gates,       // Additional constraints on when this capability can be used
+    target: ObjID,      // Object ID this capability grants access to.
+    accessor: ObjID,    // Security context ID in which this capability resides.
+    prots: Protections, // Specific access rights this capability grants.
+    flags: CapFlags,    // Cryptographic configuration for capability validation.
+    gates: Gates,       // Additional constraints on when this capability can be used.
     revocation: Revoc,  // Specifies when this capability is invalid, i.e. expiration.
-    sig: Signature,     // The signature inside the capability
+    sig: Signature,     // The signature inside the capability.
 }
 ```
 

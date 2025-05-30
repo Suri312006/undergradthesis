@@ -52,3 +52,125 @@
 	keywords = {Key words: Signature schemes --- Elliptic curve cryptography ---
 	            DSA --- ECDSA},
 }
+
+
+@book{cap-book,
+	author = {Levy, Henry M.},
+	title = {Capability-Based Computer Systems},
+	year = {1984},
+	isbn = {0932376223},
+	publisher = {Butterworth-Heinemann},
+	address = {USA},
+}
+
+      
+
+
+
+// TODO: fix this shi
+@inproceedings{twizsec,
+	author = {Daniel Bittman and Peter Alvaro and Pankaj Mehra and Darrell D. E.
+	          Long and Ethan L. Miller},
+	title = {Twizzler: a {Data-Centric} {OS} for {Non-Volatile} Memory},
+	booktitle = {2020 USENIX Annual Technical Conference (USENIX ATC 20)},
+	year = {2020},
+	isbn = {978-1-939133-14-4},
+	pages = {65--80},
+	url = {https://www.usenix.org/conference/atc20/presentation/bittman},
+	publisher = {USENIX Association},
+	month = jul,
+}
+
+@article{flume,
+	author = {Krohn, Maxwell and Yip, Alexander and Brodsky, Micah and Cliffer,
+	          Natan and Kaashoek, M. Frans and Kohler, Eddie and Morris, Robert},
+	title = {Information flow control for standard OS abstractions},
+	year = {2007},
+	issue_date = {December 2007},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	volume = {41},
+	number = {6},
+	issn = {0163-5980},
+	url = {https://doi.org/10.1145/1323293.1294293},
+	doi = {10.1145/1323293.1294293},
+	abstract = {Decentralized Information Flow Control (DIFC) is an approach to
+	            security that allows application writers to control how data
+	            flows between the pieces of an application and the outside world.
+	            As applied to privacy, DIFC allows untrusted software to compute
+	            with private data while trusted security code controls the
+	            release of that data. As applied to integrity, DIFC allows
+	            trusted code to protect untrusted software from unexpected
+	            malicious inputs. In either case, only bugs in the trusted code,
+	            which tends to be small and isolated, can lead to security
+	            violations.We present Flume, a new DIFC model that applies at the
+	            granularity of operating system processes and standard OS
+	            abstractions (e.g., pipes and file descriptors). Flume was
+	            designed for simplicity of mechanism, to ease DIFC's use in
+	            existing applications, and to allow safe interaction between
+	            conventional and DIFC-aware processes. Flume runs as a user-level
+	            reference monitor onLinux. A process confined by Flume cannot
+	            perform most system calls directly; instead, an interposition
+	            layer replaces system calls with IPCto the reference monitor,
+	            which enforces data flowpolicies and performs safe operations on
+	            the process's behalf. We ported a complex web application
+	            (MoinMoin Wiki) to Flume, changingonly 2\% of the original code.
+	            Performance measurements show a 43\% slowdown on read
+	            workloadsand a 34\% slowdown on write workloads, which aremostly
+	            due to Flume's user-level implementation.},
+	journal = {SIGOPS Oper. Syst. Rev.},
+	month = oct,
+	pages = {321–334},
+	numpages = {14},
+	keywords = {DIFC, decentralized information flow control, endpoints,
+	            reference monitor, system call interposition, web services},
+}
+
+  
+
+@inproceedings{10.1145/1294261.1294293,
+	author = {Krohn, Maxwell and Yip, Alexander and Brodsky, Micah and Cliffer,
+	          Natan and Kaashoek, M. Frans and Kohler, Eddie and Morris, Robert},
+	title = {Information flow control for standard OS abstractions},
+	year = {2007},
+	isbn = {9781595935915},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	url = {https://doi.org/10.1145/1294261.1294293},
+	doi = {10.1145/1294261.1294293},
+	abstract = {Decentralized Information Flow Control (DIFC) is an approach to
+	            security that allows application writers to control how data
+	            flows between the pieces of an application and the outside world.
+	            As applied to privacy, DIFC allows untrusted software to compute
+	            with private data while trusted security code controls the
+	            release of that data. As applied to integrity, DIFC allows
+	            trusted code to protect untrusted software from unexpected
+	            malicious inputs. In either case, only bugs in the trusted code,
+	            which tends to be small and isolated, can lead to security
+	            violations.We present Flume, a new DIFC model that applies at the
+	            granularity of operating system processes and standard OS
+	            abstractions (e.g., pipes and file descriptors). Flume was
+	            designed for simplicity of mechanism, to ease DIFC's use in
+	            existing applications, and to allow safe interaction between
+	            conventional and DIFC-aware processes. Flume runs as a user-level
+	            reference monitor onLinux. A process confined by Flume cannot
+	            perform most system calls directly; instead, an interposition
+	            layer replaces system calls with IPCto the reference monitor,
+	            which enforces data flowpolicies and performs safe operations on
+	            the process's behalf. We ported a complex web application
+	            (MoinMoin Wiki) to Flume, changingonly 2\% of the original code.
+	            Performance measurements show a 43\% slowdown on read
+	            workloadsand a 34\% slowdown on write workloads, which aremostly
+	            due to Flume's user-level implementation.},
+	booktitle = {Proceedings of Twenty-First ACM SIGOPS Symposium on Operating
+	             Systems Principles},
+	pages = {321–334},
+	numpages = {14},
+	keywords = {web services, system call interposition, reference monitor,
+	            endpoints, decentralized information flow control, DIFC},
+	location = {Stevenson, Washington, USA},
+	series = {SOSP '07},
+}
+
+  
+
