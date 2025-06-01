@@ -98,9 +98,9 @@
         align(alignment.left, [
           #set par(first-line-indent: 0em)
 
-            *Date of the public defence:*
+            // *Date of the public defence:*
 
-            _#defence-date _
+            // _#defence-date _
 
             #colbreak()
 
