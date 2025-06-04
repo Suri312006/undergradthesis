@@ -6,7 +6,11 @@
 // define a capability
 Capabilities are the atomic unit of security in Twizzler, acting as tokens of
 protections granted to a process, allowing it to access some object in the ways
-it describes. A Capability is built up of the following fields.
+it describes. Colloquially a capability is defined as permissions and
+a unique object to which those permissions apply, but in Twizzler we add
+the signature component to allow the kernel to validate that the security policy was created by an authorized party.
+
+Thus, a Capability is represented as follows:
 
 
 ```rust
@@ -17,37 +21,44 @@ struct Cap {
     flags: CapFlags,    // Cryptographic configuration for capability validation.
     gates: Gates,       // Additional constraints on when this capability can be used.
     revocation: Revoc,  // Specifies when this capability is invalid, i.e. expiration.
-    sig: Signature,     // The signature inside the capability.
+    sig: Signature,     // The signature.
 }
 ```
 
 //
 == Signature
-The signature inside is what determines the validity of this capability. The
+The signature is what determines the validity of the capability. The
 only possible signer of some capability is who ever has permissions to the
-signing key object, or the kernel. In this way, if the signer decides to
-make the signing key private to them, no other entity can administer this
-signature for this capability.  The signature is built up of a array with
+signing key object, or the kernel itself. The signature is built up of a array with
 a maximum length and a enum representing what type of cryptographic scheme
 was used to create it; quite similar to the keys mentioned previously.
-The message being signed to form the signature is the bytes of each of the
-fields inside the capability being hashed.  There is support for multiple
-hashing algorithms as described in 3.1.
-
+The fields of the capability are serialized and hashed to form the message that gets signed,
+and then stored in the signature field. Currently we support Blake3 and
+Sha256 as hashing algorithms.
 
 // what do i want to talk about regarding signatures?
 
 == Gates
+Gates act as a limited entry point into objects. If a capability has a non-trivial gate,
+which is made up of an offset field, and a length field, the kernel will read that and ensure
+that any memory accesses into that object are within the gate bounds. The original Twizzler 
+paper @twizzler describes gates as a way to perform IPC, and calls between distinct programs,
+but in the context of this thesis it is sufficient to think of them as a region of allowed
+memory access.
 
 == Flags
-Currently flags in capabilities are used to specify which hashing algorithm to use in order
-to form a message to be signed. We allow for multiple algorithms to be used in order to
-allow for backwards capability when newer, more efficient hashing algorithms are created.
+Currently, flags in capabilities are used to specify which hashing algorithm to use to form a message to be signed. We allow for multiple algorithms to be used to
+allow for backward capability when newer, more efficient hashing algorithms are created.
 
-There is also plenty of space left in the bitmap, allowing for future work to develop more
-expressive ways of using capabilities, such as planned future work to implement information
-flow control into the twizzler security system.
-
+The flags inside a capability is a bitmask providing information about distinct feautures
+of that capability. Currently we only use them to mark what hashing algorithm was used to
+form the message for the signature, but there's plenty of bits left to use.
+We hope for future work to develop more expressive ways of using capabilities, i.e. Decentralized Information Flow Control, as specified in
+6.1.
 
 
 #load-bib(read("refs.bib"))
+
+
+
+
