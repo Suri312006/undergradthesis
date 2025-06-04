@@ -5,7 +5,6 @@
 #mol-chapter("Introduction")
 
 // talk about the standard unix abstractions
-
 In mainstream operating systems, an
 omnicient and all-powerful kernel enforces security policy at runtime.
 // what am i trying to say here.
@@ -13,14 +12,25 @@ It acts as the bodyguard, holding all I/O and data hostage unless the
 requesting party has the authorization to access some resource. This tight
 coupling of security policy and access mechanisms works well since any access
 must be done through the kernel, so why not perform security checks 
-alongside accesses? However,
+alongside accesses?
+
+
+This coupling gets challenged as soon as one tries to decouple access mechanisms
+from the kernel, as we see in Twizzler.
+Twizzler is a research operating system focused on new programming paradigms 
+
+However,
 the enforcement of security policy starts getting complicated when we try
-to separate the access mechanisms from the kernel.
+to separate the access mechanisms from the kernel. 
+
+// TODO: maybe give a brief introduction to twizzler?
+
+
+
 
 //TODO: explain why this happens?
-This problem arises in a certain class of operating systems.
-
 == Data-Centric Operating Systems
+
 
 //TODO: daniel feedback
 // I would add a paragraph motivating the data-centric approach
@@ -31,6 +41,10 @@ Data-centric operating systems are defined by two principles @twizzler:
   + They provide direct, kernel-free, access to data.
 
   + They have a notion of pointers that are tied to the data they represent.
+
+By defenition, they require the removal of the kernel from the access path. 
+This is desirable since it would remove the kernel overhead for data accesses,
+resulting in pure performance gains for heavy I/O applications. 
 
 // then this paragrapch can focus on why removing the kernel
 // from the access path is a security probjem

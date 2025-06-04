@@ -32,14 +32,25 @@ TBA
 == Micro Benchmarks
 Additionally, we have microbenchmarks of core security operations in Twizzler. All
 benchmarks were run with a Ryzen 5 2600, with Twizzler virtualized in QEMU. Unfortunately
+//TODO:  do not say they they should be the same :sob:, instead say that finding
+// the difference between virtualized performance and actual performance is future work
 I ran out of time to perform benchmarks on bare metal, but they should be the same, if
 not more, performant.
 
 === Kernel
-
 There a couple of things we benchmark inside the kernel, including core cryptographic
 operations like signature generation and verification, as well as the total time it takes
 to verify a capability.
+
+//TODO: is this with SIMD in kernel? maybe worth discussing this nuance
+//
+// how many times did you run the experimnt and how were the stats calculated.
+//
+// could be interesting to compare signature verification cost as the amount of data
+// to verify goes up
+// my_note: (wouldnt this only be applicable towards delegations though since others are always
+// done properly)
+// 
 #figure(
 table(
   columns: (auto, auto),

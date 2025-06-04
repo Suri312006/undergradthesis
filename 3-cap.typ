@@ -5,6 +5,7 @@
 
 // define a capability
 Capabilities are the atomic unit of security in Twizzler, acting as tokens of
+//NOTE: point forward towards security contexts?
 protections granted to a process, allowing it to access some object in the ways
 it describes. Colloquially a capability is defined as permissions and
 a unique object to which those permissions apply, but in Twizzler we add
@@ -28,7 +29,7 @@ struct Cap {
 //
 == Signature
 The signature is what determines the validity of the capability. The
-only possible signer of some capability is who ever has permissions to the
+only possible signer of some capability is who ever has permissions to read the
 signing key object, or the kernel itself. The signature is built up of a array with
 a maximum length and a enum representing what type of cryptographic scheme
 was used to create it; quite similar to the keys mentioned previously.
@@ -46,6 +47,9 @@ paper @twizzler describes gates as a way to perform IPC, and calls between disti
 but in the context of this thesis it is sufficient to think of them as a region of allowed
 memory access.
 
+// interesting! I think this model you describe is more general, if we were to add a SWITCH_CTX permission bit... 
+// something to think about
+
 == Flags
 Currently, flags in capabilities are used to specify which hashing algorithm to use to form a message to be signed. We allow for multiple algorithms to be used to
 allow for backward capability when newer, more efficient hashing algorithms are created.
@@ -55,6 +59,9 @@ of that capability. Currently we only use them to mark what hashing algorithm wa
 form the message for the signature, but there's plenty of bits left to use.
 We hope for future work to develop more expressive ways of using capabilities, i.e. Decentralized Information Flow Control, as specified in
 6.1.
+
+//TODO: maybe worth discussing delegations if only to describe how they could be
+// extended from capabilities (as a future work ofc)
 
 
 #load-bib(read("refs.bib"))

@@ -2,10 +2,10 @@
 
 #mol-chapter("Security Contexts")
 
-Security Contexts are objects that processes attach to in-order to inherit the
+Security Contexts are objects that threads attach to in-order to inherit the
 permissions inside the context. The contexts store capabilities, allowing for userspace
 programs to add capabilities to contexts, and kernel space to efficiently search
-through them to determie whether a process has the permissions to perform a memory access.
+through them to determine whether a process has the permissions to perform a memory access.
 
 == Base
 
@@ -29,6 +29,9 @@ the relevant security context implementations for kernel and userspace to
 parse security context objects. Implicitly, the kernel uses
 this map for lookup while the user interacts with this map to indicate the insertion, removal, or modification of
 a capability.
+
+//TODO: talk about the map in memory, and about how its flat, might be worth discussing in the context
+// of not storing virtual address pointers.
 
 === Masks
 Masks act as a restraint on the permissions this context can provide for some targeted object.
@@ -60,7 +63,7 @@ which holds onto security context references that a thread has.
 
 The enforcement of security policy in Twizzler happens on page fault when trying to access
 a new object @twizzler. Upon fault, the kernel inspects the target object and identifies the
-default permissnons of that object. Then the kernel checks if the currently active
+default permissions of that object. Then the kernel checks if the currently active
 security context for the accessing thread has either cached or capabilities that provide
 permissions. If default permissions + the active context permissions arent enough to
 permit the access, the kernel then checks each of the inactive contexts to see if they
@@ -76,5 +79,15 @@ a process has the permissions for access.
 The original Twizzler paper @twizzler, and the following security paper
 go into more detail about the philosophy behind why enforcement works this way, such as the
 performance benefits of letting programs access objects directly without kernel involvement, etc. 
+
+//TODO: may be worth summarizing a few more bits here
+// doesnt have to be super detailed or anything but its better to havea ... thing tie together
+// than and a parathere with "etc"
+//
+// eg. recovering posix semantics and why thats desirable, allowing for
+// "contained" threads, ...
+//
+// basically talk more about stuff from the original twizzler paper about why this style of enforcement
+// is good, its fine to benefit
 
 #load-bib(read("refs.bib"))
