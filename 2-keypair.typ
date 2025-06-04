@@ -4,16 +4,16 @@
 #mol-chapter("Key Pairs")
 
 // what are keypair objects ?
-Key pairs in Twizzler are the representation of the cryptographic signing
-schemes used to create a signed capability, discussed in 3.1.  We design
-the keypair objects to be agnostic towards what cryptographic schemes are
-underneath, allowing for the underlying algorithm to be changed @twizzler. The
-keys themselves are stored inside of objects, allowing for persistent or
-volatile storage depending on object specification, and allows for keys
-themselves to be treated as any other object and have security policy applied
-to them. This allows for powerful primitives and rich expressiveness for
-describing secruity policy, while also being flexible enough to make basic
-policy easy.
+Key pairs in Twizzler are representation of the cryptographic signing
+schemes used to create a signed capability, as discussed in 3.1.  We design
+the keypair objects to be agnostic towards the underlying scheme to allow for
+multiple schemes, as described in @twizzler. This also helps with backwards
+compatibilty when adding new, more secure schemes, in the future. The keys
+are stored inside of objects, allowing for persistent or volatile
+storage depending on object specification, and allows for keys themselves to
+be treated as any other object and have security policy applied to them. This
+allows for powerful primitives and rich expressiveness for describing secruity
+policy, while also being intuitive enough to construct basic policy easily.
 
 
 == Abstraction
@@ -29,10 +29,10 @@ Additionally this specification allows for backward compatibility, allowing
 for an outdated signing scheme to be used in support of older programs /
 files. An existing drawback for backward compatibility is the maximum size
 of the buffer we store the key in. Currently we set the maximum size as 256
-bytes, meaning if a future cryptographic signing scheme was to be found with
-a private key size larger than 256 bytes, we would have to drop backwards
-compatibility. Sure this can be prevented by setting the maximum size to
-something larger, but that a tradeoff between possible cryptographic schemes
+bytes, meaning if a future cryptographic signing scheme was to be created with
+a key size larger than 256 bytes, we would have to drop backwards
+compatibility. Sure this can be prevented now by setting the maximum size to
+something larger, but thats a tradeoff between possible cryptographic schemes
 vs the real on-disk cost of larger buffers.
 
 == Compartmentalization
@@ -47,11 +47,11 @@ solutions in regards to key management.
 Suppose for instance we have Alice on Twizzler, and all users on twizzler have
 a "user-root" keypair that allows for them to create an arbitrary number of
 objects. Also suppose that access to this user-root keypair is protected by
-some login program, where only alice can log in. This now means that Alice
-now can create new keypair objects from her user-root keypair. Since all
-her new keypairs originate from her original user-root keypair, only she can
+some login program, where only alice can log in. This means that Alice
+can create new keypair objects from her user-root keypair. Since all
+*her* new keypairs originate from *her* original user-root keypair, only *she* can
 access the keys required to create new signatures allowing permissions into
-her objects. It forms an elegant solution for capability creation without
+*her* objects. It forms an elegant solution for key management without
 the involvement of the kernel.
 
 

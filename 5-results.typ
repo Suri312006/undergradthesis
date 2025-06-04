@@ -19,7 +19,7 @@
 == Validation
 
 The first test is a basic scenario as a check to make sure the system is behaving as intended, and
-a more expressive test to demonstrate the flexibility of the model. Eventually I intend to work with
+a more expressive test to demonstrate the flexibility of the model. Eventually, I intend to work with
 my advisor and peers to form a proof of correctness for the security model, as well
 as empirical testing to demonstrate its rigidity.
 
@@ -30,14 +30,14 @@ TBA
 
 
 == Micro Benchmarks
-Additionally we have microbenchmarks of core security operations in Twizzler. All
-benchmarks were ran with a Ryzen 5 2600, with Twizzler virtualized in QEMU. Unfortunately
+Additionally, we have microbenchmarks of core security operations in Twizzler. All
+benchmarks were run with a Ryzen 5 2600, with Twizzler virtualized in QEMU. Unfortunately
 I ran out of time to perform benchmarks on bare metal, but they should be the same, if
 not more, performant.
 
 === Kernel
 
-Theres a couple things we benchmark inside the kernel, including core cryptographic
+There a couple of things we benchmark inside the kernel, including core cryptographic
 operations like signature generation and verification, as well as the total time it takes
 to verify a capability.
 #figure(
@@ -84,19 +84,18 @@ caption: [Collection of Kernel Benchmarking Results]
 )
 
 We see that signatures are vastly more expensive than hashing, on an order
-of $10^3$, meaning that your choice of hashing algorithm doesnt affection the
+of $10^3$, meaning that your choice of hashing algorithm doesn't affect the
 total time taken for the verification of a capability. It's also important to
-note that this cost of verifying a capability for access is done on the first
-pagefault, then the kernel uses caching to store the granted permissions and
-provieds those on subsequent page faults into that object. In the future I hope
-to measure the difference between a cached and uncached verification. Secondly
-we only measure verification inside kernel space; as disscussed in section 3,
+note that this cost of verifying a capability for access is done on the first-page fault, then the kernel uses caching to store the granted permissions and
+provides those on subsequent page faults into that object. In the future, I hope
+to measure the difference between a cached and uncached verification. Secondly,
+we only measure verification inside kernel space; as discussed in section 3,
 capability creation only takes place in user space.
 
 === UserSpace
 
-In userspace we benchmark keypair and capability creation, as these operations are core to
-creating security policy.  
+In userspace, we benchmark keypair and capability creation, as these operations are core to
+creating a security policy.  
 
 
 #figure(
@@ -130,9 +129,9 @@ caption: [Collection of UserSpace Benchmarking Results]
 )
 
 Almost all the time spent in creating a capability is the cryptographic operations used
-to form its signature, which is why its in the same ballpark as signature creation we saw earlier.
+to form its signature, which is why it's in the same ballpark as the signature creation we saw earlier.
 
-The high varince in Keypair objects and Security contexts creation happens from the
-unpredictable time it takes for the kernel to create an object on disk. The reason keypair's
-are almost 2x more expensive since it creates two seperate objects, one for the signing key,
+The high standard deviation in Keypair objects and Security context creation happens from the
+unpredictable time it takes for the kernel to create an object on disk. The reason keypairs
+are almost 2x more expensive since they create two separate objects, one for the signing key,
 and one for the verifying key.

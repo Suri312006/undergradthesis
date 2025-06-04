@@ -24,9 +24,16 @@
 )
 
 #mol-abstract[
-  whatevea
-  lowkey not even sure what to write
-  ]
+  Traditional operating systems permit data access through the kernel, applying
+  security policy as a part of that pipeline. The Twizzler operating system
+  flips that relationship on its head, focusing on an approach where data
+  access is a first-class citizen, getting rid of the kernel as a middleman. With
+  this data-centric approach, it requires us to rethink how security policy
+  interacts with users and the kernel. In this thesis, I present the design and
+  implementation of core security primitives in Twizzler. Then I evaluate the
+  security model with a basic and advanced scenario, as well as microbenchmarks
+  of core security operations. Lastly, I discuss future work built off this
+  thesis, such as the incorporation of Decentralized Information Flow Control.]
 
 
 
