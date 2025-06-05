@@ -1,5 +1,7 @@
 #import "template.typ": *
 
+#show link: it => underline(text(fill:blue)[#it])
+
 #import "@preview/unify:0.7.1"
 #mol-chapter("Results")
 
@@ -32,25 +34,19 @@ TBA
 == Micro Benchmarks
 Additionally, we have microbenchmarks of core security operations in Twizzler. All
 benchmarks were run with a Ryzen 5 2600, with Twizzler virtualized in QEMU. Unfortunately
-//TODO:  do not say they they should be the same :sob:, instead say that finding
-// the difference between virtualized performance and actual performance is future work
-I ran out of time to perform benchmarks on bare metal, but they should be the same, if
-not more, performant.
+I ran out of time to perform benchmarks on bare metal, but hope to find
+any discrepencies between virtualized and actual performance in future work. 
 
 === Kernel
+
+The kernel benchmarking framework takes a closure ( a block of code we want to benchmark ),
+runs it atleast 100 times, and scales the number of iterations to reach 2 seconds of total runtime, and stores
+the time it takes for each run. Then it computes the average, and the standard deviation from the timings.
+
 There a couple of things we benchmark inside the kernel, including core cryptographic
 operations like signature generation and verification, as well as the total time it takes
 to verify a capability.
 
-//TODO: is this with SIMD in kernel? maybe worth discussing this nuance
-//
-// how many times did you run the experimnt and how were the stats calculated.
-//
-// could be interesting to compare signature verification cost as the amount of data
-// to verify goes up
-// my_note: (wouldnt this only be applicable towards delegations though since others are always
-// done properly)
-// 
 #figure(
 table(
   columns: (auto, auto),
@@ -104,6 +100,8 @@ we only measure verification inside kernel space; as discussed in section 3,
 capability creation only takes place in user space.
 
 === UserSpace
+Userspace benchmarks were calculated using rust's built in
+#link("https://doc.rust-lang.org/cargo/commands/cargo-bench.html")[benchmarking tool].
 
 In userspace, we benchmark keypair and capability creation, as these operations are core to
 creating a security policy.  

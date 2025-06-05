@@ -60,8 +60,12 @@ form the message for the signature, but there's plenty of bits left to use.
 We hope for future work to develop more expressive ways of using capabilities, i.e. Decentralized Information Flow Control, as specified in
 6.1.
 
-//TODO: maybe worth discussing delegations if only to describe how they could be
+// maybe worth discussing delegations if only to describe how they could be
 // extended from capabilities (as a future work ofc)
+//
+// lowkey tuah lazy to do dis rn, so maybe later, plus i havent talked about
+// them at all so im sure daniel is just recomending this as a way to add
+// content here, so ill see.
 
 
 #load-bib(read("refs.bib"))

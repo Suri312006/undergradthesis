@@ -28,10 +28,9 @@ The map holds positions to Capabilities relevant to some target object, which
 the relevant security context implementations for kernel and userspace to
 parse security context objects. Implicitly, the kernel uses
 this map for lookup while the user interacts with this map to indicate the insertion, removal, or modification of
-a capability.
+a capability. The `Map` type here and for `masks` is a flat data-structure, and stores
+offsets into the object where capabilities can be found for a target object.
 
-//TODO: talk about the map in memory, and about how its flat, might be worth discussing in the context
-// of not storing virtual address pointers.
 
 === Masks
 Masks act as a restraint on the permissions this context can provide for some targeted object.
@@ -61,8 +60,15 @@ to multiple security contexts, but can only utilize the permissions granted by o
 they switch @twizzler. To manage these threads, the kernel assigns a Security Context Manager,
 which holds onto security context references that a thread has.
 
-The enforcement of security policy in Twizzler happens on page fault when trying to access
-a new object @twizzler. Upon fault, the kernel inspects the target object and identifies the
+There exists only 1 point of enforcement for security policy if we wish
+to keep the kernel out of the access path; the creation of the path itself!
+On page fault, the point in which a process requests the kernel to map an object in is
+when we have access to the security policy we seek to enforce (the signed capabilities inside the security context), the
+target object, and most importantly, kernel execution! Its the only time
+we can program the mmu according to the desired protections, and transfer control
+of enforcement to the hardware @twizzler.
+
+Upon page fault, the kernel inspects the target object and identifies the
 default permissions of that object. Then the kernel checks if the currently active
 security context for the accessing thread has either cached or capabilities that provide
 permissions. If default permissions + the active context permissions arent enough to
@@ -72,15 +78,14 @@ switch the active context of that process to the previously inactive context whe
 was found. If it fails all of these, then the kernel terminates the process, citing inadequate
 permissions. 
 
-Since the security context can have a mask per object, while also having a global_mask to
-the protections it can grant, the kernel also takes this into account while determining if
-a process has the permissions for access.
 
-The original Twizzler paper @twizzler, and the following security paper
-go into more detail about the philosophy behind why enforcement works this way, such as the
-performance benefits of letting programs access objects directly without kernel involvement, etc. 
 
-//TODO: may be worth summarizing a few more bits here
+
+
+
+// why should enforcement work this way?
+
+// may be worth summarizing a few more bits here
 // doesnt have to be super detailed or anything but its better to havea ... thing tie together
 // than and a parathere with "etc"
 //

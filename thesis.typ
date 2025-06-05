@@ -15,7 +15,6 @@
   /* Only one supervisor? The singleton array ("Dr Jack Smith",) needs the
      trailing comma. */
   supervisors: ("Owen B. Arden",),
-  //TODO: fix these
   committee: (
     "Dr. Peter Alvaro",
     "Dr. Andi Quinn",

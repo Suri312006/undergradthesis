@@ -4,43 +4,43 @@
 #mol-chapter("Key Pairs")
 
 // what are keypair objects ?
-// TODO: fix this fuckin sentence
-Key pairs in Twizzler are representation of the cryptographic signing
-schemes used to create a signed capability, as discussed in 3.1.
+Key-Pairs in Twizzler are two objects, one containing a signing key, and the
+other having a verifying key. The signing key is used to form the signature when
+creating a capability, while the verifying key is used by the kernel to validate
+a capability before granting access rights. More detail can be found about
+capability signatures in section 3.1.
 
 
-We design
-the keypair objects to be agnostic towards the underlying scheme to allow for
-multiple schemes, as described in @twizzler. This also helps with backwards
-compatibilty when adding new, more secure schemes, in the future. The keys
-are stored inside of objects, allowing for persistent or volatile
-storage depending on object specification, and allows for keys themselves to
-be treated as any other object and have security policy applied to them. This
-allows for powerful primitives and rich expressiveness for describing secruity
-//NOTE: elaborate or point forward to later
-policy, while also being intuitive enough to construct basic policy easily.
+They keys are represented as follows:
 
+```rust
+struct Key {
+    key: [u8; MAX_KEY_SIZE],
+    len: u64,
+    scheme: SigningScheme,
+}
+```
+Since the underlying data is just a byte array, the keys themselves are
+scheme-agnostic, enabling support for multiple cryptograhic schemes, as
+described in @twizzler. This also makes backward compatibility trivial when
+adding new signing schemes.The keys are stored inside of objects, allowing for
+persistent or volatile storage depending on object specification, and allows for
+keys themselves to be treated as any other object and have security policy
+applied to them.
 
 == Abstraction
-
-The `SigningKey` struct is a fixed length byte array with a length field
-and an enum specifying what algorithm that key should be interpreted as.
 Currently we use the Elliptic Curve Digital Signature Algorithm (ECDSA) @ecdsa
-//TODO: why are we talkin about the simplistic data representation without
-// actually explaining the representation. maybe having a diagram would be useful?
 to sign capabilities and verify them, but the simplistic data representation
 allows for any arbitrary algorithm to be used as long as the key can be
 represented as bytes.
 
-Additionally this specification allows for backward compatibility, allowing
-for an outdated signing scheme to be used in support of older programs /
-files. An existing drawback for backward compatibility is the maximum size
+An existing drawback for backward compatibility is the maximum size
 of the buffer we store the key in. Currently we set the maximum size as 256
 bytes, meaning if a future cryptographic signing scheme was to be created with
 a key size larger than 256 bytes, we would have to drop backwards
 compatibility. While this can be prevented now by setting the maximum size to
 something larger, it ends up being tradeoff between possible cryptographic schemes
-vs the real on-disk cost of larger buffers.
+vs the real on-disk cost of larger buffers, something we plan to investigate in future work.
 
 == Compartmentalization
 // how they can be used to sign multiple objects (compartmentalization)
@@ -62,6 +62,4 @@ access the keys required to create new signatures allowing permissions into
 the involvement of the kernel.
 
 // nice, we should talk more about this
-
-
 #load-bib(read("refs.bib"))
