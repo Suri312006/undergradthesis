@@ -6,10 +6,12 @@
 // define a capability
 Capabilities are the atomic unit of security in Twizzler, acting as tokens of
 //NOTE: point forward towards security contexts?
-protections granted to a process, allowing it to access some object in the ways
-it describes. Colloquially a capability is defined as permissions and
-a unique object to which those permissions apply, but in Twizzler we add
-the signature component to allow the kernel to validate that the security policy was created by an authorized party.
+protections that allow a process to access an object in the ways it describes. More
+information about how capabilities interact with processes can be found in section 4.2.
+Colloquially a capability is defined as permissions and a unique object to which
+those permissions apply, but in Twizzler we add the signature component to allow
+the kernel to validate that the security policy was created by an authorized
+party.
 
 Thus, a Capability is represented as follows:
 
@@ -20,7 +22,7 @@ struct Cap {
     accessor: ObjID,    // Security context ID in which this capability resides.
     prots: Protections, // Specific access rights this capability grants.
     flags: CapFlags,    // Cryptographic configuration for capability validation.
-    gates: Gates,       // Additional constraints on when this capability can be used.
+    gates: Gates,       // Constraints on where permisions are applied.
     revocation: Revoc,  // Specifies when this capability is invalid, i.e. expiration.
     sig: Signature,     // The signature.
 }
@@ -30,9 +32,9 @@ struct Cap {
 == Signature
 The signature is what determines the validity of the capability. The
 only possible signer of some capability is who ever has permissions to read the
-signing key object, or the kernel itself. The signature is built up of a array with
-a maximum length and a enum representing what type of cryptographic scheme
-was used to create it; quite similar to the keys mentioned previously.
+signing key object, or the kernel itself. The signature is built up of an array with
+a maximum length and an enum representing what type of cryptographic scheme
+was used to create it; quite similar to the keys mentioned in section 2.
 The fields of the capability are serialized and hashed to form the message that gets signed,
 and then stored in the signature field. Currently we support Blake3 and
 Sha256 as hashing algorithms.
@@ -51,15 +53,16 @@ memory access.
 // something to think about
 
 == Flags
-Currently, flags in capabilities are used to specify which hashing algorithm to use to form a message to be signed. We allow for multiple algorithms to be used to
-allow for backward capability when newer, more efficient hashing algorithms are created.
+Currently, flags in capabilities are used to specify which hashing algorithm was
+used
+to form the message that was signed. We allow multiple algorithms to be used
+to allow for backward capability when newer, more efficient hashing algorithms
+are created.
 
-The flags inside a capability is a bitmask providing information about distinct feautures
-of that capability. Currently we only use them to mark what hashing algorithm was used to
-form the message for the signature, but there's plenty of bits left to use.
-We hope for future work to develop more expressive ways of using capabilities, i.e. Decentralized Information Flow Control, as specified in
-6.1.
-
+The flags inside a capability is a bitmask providing information about distinct
+feautures of that capability. Currently they only convey the hashing algoritmn
+but there's plenty of bits left to use.  We hope for future work to develop more
+expressive ways of using capabilities through the flags.
 // maybe worth discussing delegations if only to describe how they could be
 // extended from capabilities (as a future work ofc)
 //
