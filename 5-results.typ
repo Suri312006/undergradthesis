@@ -18,34 +18,23 @@
 // take measurements without security checks too so you can see the security overhead
 //
 
-== Validation
-
-The first test is a basic scenario as a check to make sure the system is behaving as intended, and
-a more expressive test to demonstrate the flexibility of the model. Eventually, I intend to work with
-my advisor and peers to form a proof of correctness for the security model, as well
-as empirical testing to demonstrate its rigidity.
-
-=== Basic
-TBA
-== Expressive
-TBA
-
-
-== Micro Benchmarks
-Additionally, we have microbenchmarks of core security operations in Twizzler. All
-benchmarks were run with a Ryzen 5 2600, with Twizzler virtualized in QEMU. Unfortunately
-I ran out of time to perform benchmarks on bare metal, but hope to find
+We have microbenchmarks of core security operations in Twizzler. All
+benchmarks were run with a Ryzen 5 2600 with 16 gigs of ram, running Ubuntu
+22.04, with Twizzler virtualized in QEMU. The storage backend for all created
+objects was volatile.  Unfortunately I ran out of time to perform benchmarks on
+bare metal, but hope to find
 any discrepencies between virtualized and actual performance in future work. 
 
-=== Kernel
+== Kernel
 
-The kernel benchmarking framework takes a closure ( a block of code we want to benchmark ),
-runs it atleast 100 times, and scales the number of iterations to reach 2 seconds of total runtime, and stores
-the time it takes for each run. Then it computes the average, and the standard deviation from the timings.
+The kernel benchmarking framework takes a closure ( a block of code we want to
+benchmark ), runs it atleast 100 times, and scales the number of iterations to
+reach 2 seconds of total runtime, storing the time it takes for each run. Then
+it computes the average, and the standard deviation from the timings.
 
-There a couple of things we benchmark inside the kernel, including core cryptographic
-operations like signature generation and verification, as well as the total time it takes
-to verify a capability.
+There are a couple of things we benchmark inside the kernel, including core
+cryptographic operations like signature generation and verification, as well as
+the time it takes to verify a capability.
 
 #figure(
 table(
@@ -95,12 +84,10 @@ of $10^3$, meaning that your choice of hashing algorithm doesn't affect the
 total time taken for the verification of a capability. It's also important to
 note that this cost of verifying a capability for access is done on the first-page fault, then the kernel uses caching to store the granted permissions and
 provides those on subsequent page faults into that object. In the future, I hope
-to measure the difference between a cached and uncached verification. Secondly,
-we only measure verification inside kernel space; as discussed in section 3,
-capability creation only takes place in user space.
-
+to measure the difference between a cached and uncached permissions calculation, as well
+as how many practical accesses are granted using the cache compared to capability verifications. 
 === UserSpace
-Userspace benchmarks were calculated using rust's built in
+Userspace benchmarks were run using rust's built in
 #link("https://doc.rust-lang.org/cargo/commands/cargo-bench.html")[benchmarking tool].
 
 In userspace, we benchmark keypair and capability creation, as these operations are core to
@@ -141,6 +128,7 @@ Almost all the time spent in creating a capability is the cryptographic operatio
 to form its signature, which is why it's in the same ballpark as the signature creation we saw earlier.
 
 The high standard deviation in Keypair objects and Security context creation happens from the
-unpredictable time it takes for the kernel to create an object on disk. The reason keypairs
-are almost 2x more expensive since they create two separate objects, one for the signing key,
-and one for the verifying key.
+unpredictable time it takes for the kernel to create an object. The reason keypairs
+are almost 2x more expensive because two separate objects are created, one for the signing key,
+and one for the verifying key. Performance gains would only be possible from optimizing
+how the kernel creates obejcts.
