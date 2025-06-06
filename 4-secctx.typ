@@ -2,10 +2,13 @@
 
 #mol-chapter("Security Contexts")
 
-Security Contexts are objects that threads attach to in-order to inherit the
-permissions inside the context. The contexts store capabilities, allowing for userspace
-programs to add capabilities to contexts, and kernel space to efficiently search
-through them to determine whether a process has the permissions to perform a memory access.
+Security Contexts are objects that threads attach to in-order to inherit access
+rights, represented as capabilities, inside the context. Additionally, a thread
+can attach to multiple security contexts, but can only utilize the permissions
+granted by one unless they switch @twizzler. The contexts store capabilities,
+allowing for userspace programs to add capabilities to contexts, and kernel
+space to efficiently search through them to determine whether a process has the
+permissions to perform a memory access.
 
 == Base
 
@@ -24,16 +27,16 @@ struct SecCtxBase {
 ```
 
 === Map
-The map holds positions to Capabilities relevant to some target object, which
-the relevant security context implementations for kernel and userspace to
-parse security context objects. Implicitly, the kernel uses
-this map for lookup while the user interacts with this map to indicate the insertion, removal, or modification of
-a capability. The `Map` type here and for `masks` is a flat data-structure, and stores
-offsets into the object where capabilities can be found for a target object.
+The map contains positions of capabilities related to a target object, enabling
+kernel and userspace to look for capabilities inside security contexts.
+Implicitly, the kernel uses this map for lookup while the user interacts with
+this map to indicate the insertion, removal, or modification of a capability.
+The `Map` type here and for `masks` is a flat data-structure, and stores offsets
+into the object where capabilities can be found for a target object.
 
 
 === Masks
-Masks act as a restraint on the permissions this context can provide for some targeted object.
+Masks act as a restraint on the permissions a context can provide for some target object.
 This allows for more expressive security policy, such as being able to quickly restrict
 permissions for an object, without having to remove a capability and recreating one with the
 dersired restricted permissions. 
@@ -55,24 +58,22 @@ permission to. We also plan to utilize these flags in future works, as described
 
 All enforcement happens inside the kernel, which has a seperate view into Security Contexts
 than userspace. The kernel keeps track of all security contexts that threads in Twizzler
-attach to, instantiating a cache inside each one. Additionally, a thread can attach
-to multiple security contexts, but can only utilize the permissions granted by one unless
-they switch @twizzler. To manage these threads, the kernel assigns a Security Context Manager,
+attach to, instantiating a cache in each one.  To manage these threads, the kernel assigns a Security Context Manager,
 which holds onto security context references that a thread has.
 
 There exists only 1 point of enforcement for security policy if we wish
 to keep the kernel out of the access path; the creation of the path itself!
-On page fault, the point in which a process requests the kernel to map an object in is
+On page fault, the point in which a process requests the kernel to map in an object, is
 when we have access to the security policy we seek to enforce (the signed capabilities inside the security context), the
 target object, and most importantly, kernel execution! Its the only time
-we can program the mmu according to the desired protections, and transfer control
+we can program the MMU according to the desired protections, and transfer control
 of enforcement to the hardware @twizzler.
 
 Upon page fault, the kernel inspects the target object and identifies the
 default permissions of that object. Then the kernel checks if the currently active
 security context for the accessing thread has either cached or capabilities that provide
-permissions. If default permissions + the active context permissions arent enough to
-permit the access, the kernel then checks each of the inactive contexts to see if they
+permissions. If default permissions plus the active context permissions arent enough to
+permit the access and the security context isn't a jail, the kernel then checks each of the inactive contexts to see if they
 have any relevant permissions. If there exists such permissions, then the kernel will
 switch the active context of that process to the previously inactive context where the permission
 was found. If it fails all of these, then the kernel terminates the process, citing inadequate
